@@ -1,1 +1,49 @@
 @import "tailwindcss";
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  user-select: none;
+}
+
+@media (width >= 48rem) {
+  body {
+    overflow: hidden;
+  }
+}
+
+*::-webkit-scrollbar {
+  display: none;
+}
+
+@font-face {
+  font-family: "Patrick Hand SC";
+  src: url("./assets/fonts/PatrickHandSC-Regular.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'PT Sans';
+  src: url('./assets/fonts/PTSans-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+.ptSans {
+  font-family: "PT Sans", sans-serif;
+}
+
+body {
+  overflow-x: hidden;
+  font-family: "Patrick Hand SC", cursive;
+  background-color: #d44d5c;
+}
+
+.timer-text {
+  font-size: clamp(4rem, 10vw, 6rem);
+}
+

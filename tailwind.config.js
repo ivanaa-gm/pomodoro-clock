@@ -1,10 +1,12 @@
 module.exports = {
-  content: [
-    "./index.html",
-    "./src/**/*.{js,jsx}",
-  ],
+  content: ["./index.html", "./src/**/*.{js,jsx}"],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        patrick: ["'Patrick Hand SC'", "cursive"],
+        ptSans: ["'PT Sans'", "sans-serif"],
+      },
+    },
   },
   plugins: [],
-}
+};
