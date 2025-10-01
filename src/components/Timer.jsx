@@ -1,4 +1,6 @@
-const Timer = ({secondsLeft}) => {
+import Digit from "./Digit"
+
+const Timer = ({ secondsLeft }) => {
   const minutes = Math.floor(secondsLeft / 60);
   const seconds = secondsLeft % 60;
 
@@ -6,13 +8,13 @@ const Timer = ({secondsLeft}) => {
   const paddedSeconds = String(seconds).padStart(2, "0");
 
   return (
-    <div className="flex flex-row justify-center ptSans items-center my-30 md:mb-20 md:my-0">
+    <div className="flex flex-row justify-center ptSans items-center my-30 md:mb-10 md:my-0">
       <div className="flex flex-row timer-text font-semibold">
-        <div className="bg-blue-900 rounded-md px-6">{paddedMinutes[0]}</div>
-        <div className="bg-blue-900 rounded-md px-6">{paddedMinutes[1]}</div>
-        <div className="p-2">:</div>
-        <div className="bg-blue-900 rounded-md px-6">{paddedSeconds[0]}</div>
-        <div className="bg-blue-900 rounded-md px-6">{paddedSeconds[1]}</div>
+        <Digit value={paddedMinutes[0]} />
+        <Digit value={paddedMinutes[1]} />
+        <div className="p-2 text-[#0C0016]">:</div>
+        <Digit value={paddedSeconds[0]} />
+        <Digit value={paddedSeconds[1]} />
       </div>
     </div>
   );
