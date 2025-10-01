@@ -11,8 +11,8 @@ const Digit = ({ value }) => {
 
   return (
     <div
-      className={`bg-[#6E2F3F] text-[#0C0016] rounded-md px-6 transition-all duration-300 ${
-        animate ? "bg-[#6e2f3ffb] brightness-125" : ""
+      className={`bg-white/2 text-[#0C0016] shadow-sm rounded-md px-6 transition-all duration-300 ${
+        animate ? "bg-white/10 brightness-125" : ""
       }`}
     >
       {value}

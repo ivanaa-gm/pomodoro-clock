@@ -41,7 +41,9 @@ body {
   overflow-x: hidden;
   font-family: "Patrick Hand SC", cursive;
   background-color: #d44d5c;
+  transition: background-color 1s ease, filter 1s ease;
 }
+
 
 .timer-text {
   font-size: clamp(4rem, 10vw, 6rem);

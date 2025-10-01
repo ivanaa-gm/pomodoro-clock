@@ -67,6 +67,10 @@ const TimerPanel = () => {
       ? breakJingle.play()
       : focusJingle.play();
 
+    steps[currentStep].type === "work"
+      ? (document.body.style.backgroundColor = "#00BBCC")
+      : (document.body.style.backgroundColor = "#D44D5C");
+
     switch (step) {
       case 0:
         setLapOne((prev) => ({ ...prev, lap: true }));
