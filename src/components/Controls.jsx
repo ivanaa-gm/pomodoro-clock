@@ -8,7 +8,7 @@ const Controls = ({
   isRunning,
 }) => {
   return (
-    <div className="flex flex-col gap-2 text-xl">
+    <div className="flex flex-col justify-center gap-2 text-xl bg-yellow-500">
       {isRunning ? (
         <div
           className="flex flex-row border-2 rounded-2xl justify-center items-center gap-2 p-2 cursor-pointer"
@@ -19,7 +19,7 @@ const Controls = ({
         </div>
       ) : (
         <div
-          className="flex flex-row border-2 rounded-2xl justify-center items-center gap-2 p-2 cursor-pointer"
+          className="flex flex-row border-2 rounded-2xl justify-center items-center gap-2 p-2 cursor-pointer w-40"
           onClick={startTimer}
         >
           <Play />
@@ -28,6 +28,8 @@ const Controls = ({
       )}
 
       <div className="flex flex-row gap-2">
+        <div>infoooooo</div>
+
         <div
           className="flex flex-row border-2 rounded-2xl justify-center items-center gap-2 p-2 cursor-pointer w-[50%]"
           onClick={resetTimer}

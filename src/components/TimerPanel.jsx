@@ -1,22 +1,11 @@
+import LapContext from "./contexts/LapContext";
 import PomodoroContext from "./contexts/PomodoroContext";
 import Controls from "./Controls";
 import Timer from "./Timer";
 import { useState, useEffect, useContext } from "react";
 
-const steps = [
-  { type: "work", duration: 4 },
-  { type: "break", duration: 2 },
-  { type: "work", duration: 4 },
-  { type: "break", duration: 2 },
-  { type: "work", duration: 4 },
-  { type: "break", duration: 2 },
-  { type: "work", duration: 4 },
-  { type: "longBreak", duration: 6 },
-];
-
 const TimerPanel = () => {
   const {
-    pomodoroName,
     setPomodoroName,
     lapOne,
     setLapOne,
@@ -26,10 +15,22 @@ const TimerPanel = () => {
     setLapThree,
     lapFour,
     setLapFour,
-    pomodoroComplete,
     setPomodoroComplete,
     resetPomodoro,
   } = useContext(PomodoroContext);
+  const { focusMinutes, breakMinutes, largeBreakMinutes } =
+    useContext(LapContext);
+
+  const steps = [
+    { type: "work", duration: focusMinutes },
+    { type: "break", duration: breakMinutes },
+    { type: "work", duration: focusMinutes },
+    { type: "break", duration: breakMinutes },
+    { type: "work", duration: focusMinutes },
+    { type: "break", duration: breakMinutes },
+    { type: "work", duration: focusMinutes },
+    { type: "longBreak", duration: largeBreakMinutes },
+  ];
 
   const [inputValue, setInputValue] = useState("");
   const [currentPomodoroName, setCurrentPomodoroName] = useState("");
@@ -57,7 +58,7 @@ const TimerPanel = () => {
 
   useEffect(() => {
     setSecondsLeft(steps[currentStep].duration);
-  }, [currentStep]);
+  }, [focusMinutes, breakMinutes, largeBreakMinutes, currentStep]);
 
   function handleStepComplete(step) {
     const focusJingle = new Audio("/sounds/new-notification-08-352461.mp3");
@@ -68,7 +69,7 @@ const TimerPanel = () => {
       : focusJingle.play();
 
     steps[currentStep].type === "work"
-      ? (document.body.style.backgroundColor = "#00BBCC")
+      ? (document.body.style.backgroundColor = "#08300C")
       : (document.body.style.backgroundColor = "#D44D5C");
 
     switch (step) {
@@ -102,7 +103,7 @@ const TimerPanel = () => {
         setIsRunning(false);
         setCurrentStep(0);
         setLapOngoing(false);
-        return; // stop here
+        return; 
       default:
         break;
     }
@@ -138,13 +139,14 @@ const TimerPanel = () => {
   function startTimer() {
     if (lapOngoing) {
       setIsRunning(true);
-    } else if (inputValue !== "") {
+    } else if (inputValue.trim() !== "") {
       resetPomodoro();
       setCurrentPomodoroName(inputValue);
       setPomodoroName(inputValue);
       setNameNotSetError(false);
       setLapOngoing(true);
-    } else if (currentPomodoroName === "") {
+    } else if (currentPomodoroName.trim() === "") {
+      setInputValue("");
       setNameNotSetError(true);
       return;
     }

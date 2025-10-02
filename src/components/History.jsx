@@ -1,33 +1,43 @@
+import { useContext, useState, useEffect } from "react";
+import PomodoroContext from "./contexts/PomodoroContext";
+
 const History = () => {
-return (
-    <div className="h-full flex flex-col items-center bg-amber-300 gap-4 overflow-y-scroll">
+  const { pomodoroName, pomodoroComplete } = useContext(PomodoroContext);
+
+  const [history, setHistory] = useState([]);
+
+  useEffect(() => {
+    if (pomodoroComplete && pomodoroName.trim() !== "") {
+      setHistory((prev) => [...prev, pomodoroName]);
+    }
+  }, [pomodoroComplete, pomodoroName]);
+  return (
+    <div className="bg-white/5 rounded-md">
+      <div className="flex justify-between items-center">
+        <img className="h-12" src="angle.png" />
         <h1 className="font-semibold text-xl">Previous runs:</h1>
-        <div className="flex flex-col gap-2">
-            <div className="flex flex-row items-center gap-2">
-                <img src="tomatoes.png" className="h-9"/>
-                <p>learning biology..</p>
-            </div>
-            <div className="flex flex-row items-center gap-2">
-                <img src="tomatoes.png" className="h-9"/>
-                <p>learning maths..</p>
-            </div>
-            <div className="flex flex-row items-center gap-2">
-                <img src="tomatoes.png" className="h-9"/>
-                <p>learning geography..</p>
-            </div>
-            <div className="flex flex-row items-center gap-2">
-                <img src="tomatoes.png" className="h-9"/>
-                <p>learning biology..</p>
-            </div><div className="flex flex-row items-center gap-2">
-                <img src="tomatoes.png" className="h-9"/>
-                <p>learning biology..</p>
-            </div><div className="flex flex-row items-center gap-2">
-                <img src="tomatoes.png" className="h-9"/>
-                <p>learning biology..</p>
-            </div>
-        </div>
+        <img className="h-12 rotate-90" src="angle.png" />
+      </div>
+
+      <ul className="h-26 flex flex-col items-center overflow-y-scroll mt-4">
+        {history.length === 0 ? (
+          <p className="text-[#3D182B]">no runs yet...</p>
+        ) : (
+          history.map((name, idx) => (
+            <li key={idx} className="flex flex-row items-center gap-2 p-2 w-[80%] rounded-sm hover:bg-black/10">
+              <img src="tomatoes.png" className="h-9" />
+              <p>{name}</p>
+            </li>
+          ))
+        )}
+      </ul>
+
+      <div className="flex justify-between items-center">
+        <img className="h-12 -rotate-90" src="angle.png" />
+        <img className="h-12 rotate-180" src="angle.png" />
+      </div>
     </div>
-)
-}
+  );
+};
 
 export default History;

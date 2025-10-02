@@ -13,7 +13,7 @@ const CustomAndInfoButtons = () => {
   const closeInfoModal = () => setIsInfoOpen(false);
 
   return (
-    <>
+    <div className="flex flex-row gap-4">
       <div className="bg-white/50 rounded-full p-2 cursor-pointer" onClick={openCustomizeModal}>
         <PencilLine  />
       </div>
@@ -33,7 +33,7 @@ const CustomAndInfoButtons = () => {
           isOpen={isInfoOpen}
         />
       )}
-    </>
+    </div>
   );
 };
 

@@ -14,7 +14,7 @@ const InfoModal = ({ onClose, isOpen }) => {
           onClick={onClose}
         >
           <motion.div
-            className="bg-[#3D182B] text-[#F5E9E2] rounded-2xl p-6 shadow-2xl md:w-160 min-w-100"
+            className="bg-[#3D182B] text-[#F5E9E2] rounded-2xl p-6 shadow-2xl md:w-160 m-2"
             initial={{ scale: 0.95, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.95, opacity: 0 }}
