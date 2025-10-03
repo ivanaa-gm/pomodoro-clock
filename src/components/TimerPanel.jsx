@@ -18,8 +18,13 @@ const TimerPanel = () => {
     setPomodoroComplete,
     resetPomodoro,
   } = useContext(PomodoroContext);
-  const { focusMinutes, breakMinutes, largeBreakMinutes } =
-    useContext(LapContext);
+  const {
+    focusMinutes,
+    breakMinutes,
+    largeBreakMinutes,
+    lapOngoing,
+    setLapOngoing,
+  } = useContext(LapContext);
 
   const steps = [
     { type: "work", duration: focusMinutes },
@@ -37,8 +42,13 @@ const TimerPanel = () => {
   const [nameNotSetError, setNameNotSetError] = useState(false);
   const [secondsLeft, setSecondsLeft] = useState(steps[0].duration);
   const [isRunning, setIsRunning] = useState(false);
-  const [lapOngoing, setLapOngoing] = useState(false);
   const [currentStep, setCurrentStep] = useState(0);
+
+  const focusJingle = new Audio("/sounds/new-notification-08-352461.mp3");
+  const breakJingle = new Audio("/sounds/new-notification-024-370048.mp3");
+  const clockTickingJingle = new Audio(
+    "/sounds/ticking-stopwatch-dry-103837.mp3"
+  );
 
   useEffect(() => {
     if (!isRunning) return;
@@ -61,16 +71,14 @@ const TimerPanel = () => {
   }, [focusMinutes, breakMinutes, largeBreakMinutes, currentStep]);
 
   function handleStepComplete(step) {
-    const focusJingle = new Audio("/sounds/new-notification-08-352461.mp3");
-    const breakJingle = new Audio("/sounds/new-notification-024-370048.mp3");
-
-    steps[currentStep].type === "work"
-      ? breakJingle.play()
-      : focusJingle.play();
-
-    steps[currentStep].type === "work"
-      ? (document.body.style.backgroundColor = "#08300C")
-      : (document.body.style.backgroundColor = "#D44D5C");
+    if (steps[currentStep].type === "work") {
+      breakJingle.play();
+      document.body.style.backgroundColor = "#08300C";
+    } else {
+      focusJingle.play();
+      clockTickingJingle.play();
+      document.body.style.backgroundColor = "#D44D5C";
+    }
 
     switch (step) {
       case 0:
@@ -97,13 +105,13 @@ const TimerPanel = () => {
       case 7:
         setLapFour({ lap: true, break: true, complete: true });
         setPomodoroComplete(true);
-        setSecondsLeft(4);
+        setSecondsLeft(focusMinutes);
         setCurrentPomodoroName("");
         setInputValue("");
         setIsRunning(false);
         setCurrentStep(0);
         setLapOngoing(false);
-        return; 
+        return;
       default:
         break;
     }
@@ -128,7 +136,7 @@ const TimerPanel = () => {
     console.log(lapThree);
     console.log(lapFour);
     resetPomodoro();
-    setSecondsLeft(4);
+    setSecondsLeft(focusMinutes);
     setCurrentPomodoroName("");
     setInputValue("");
     setIsRunning(false);
@@ -139,6 +147,7 @@ const TimerPanel = () => {
   function startTimer() {
     if (lapOngoing) {
       setIsRunning(true);
+      clockTickingJingle.play();
     } else if (inputValue.trim() !== "") {
       resetPomodoro();
       setCurrentPomodoroName(inputValue);
@@ -158,58 +167,88 @@ const TimerPanel = () => {
   }
 
   return (
-    <div className="h-full flex flex-col md:justify-around items-center">
-      <div>
-        <img src="logo.png" className="h-36" />
+    <div className="flex h-full justify-center">
+      <div
+        className={`
+    hidden md:flex flex-col items-center justify-center gap-8
+    ${steps[currentStep].type === "break" ? "opacity-100" : "opacity-0"}
+  `}
+      >
+        <img src="music-note.gif" className="h-20" />
+
+        <div className="flex">
+          <img src="music-note.gif" className="h-20" />
+          <img src="tea.gif" className="h-40" />
+        </div>
+        <img src="sofa.gif" className="h-50" />
       </div>
-      <h2 className="text-4xl font-semibold">
-        {steps[currentStep].type === "work" ? "FOCUS" : "BREAK"}
-      </h2>
+      <div className="h-full flex flex-col md:justify-around items-center">
+        <div>
+          <img src="logo.png" className="h-36" />
+        </div>
+        <h2 className="text-4xl font-semibold">
+          {steps[currentStep].type === "work" ? "FOCUS" : "BREAK"}
+        </h2>
 
-      <Timer secondsLeft={secondsLeft} />
+        <Timer secondsLeft={secondsLeft} />
 
-      <div className="h-32 flex justify-center items-end">
-        {currentPomodoroName === "" ? (
-          <form
-            onSubmit={(e) => {
-              e.preventDefault();
-              setCurrentPomodoroName(inputValue);
-              setNameNotSetError(false);
-            }}
-          >
-            <input
-              className={`text-3xl border-2 rounded-lg p-2 transition-colors duration-200 ${
-                nameNotSetError ? "border-[#DF7C87]" : "border-gray-300"
-              }`}
-              placeholder="...name your pomodoro..."
-              autoFocus
-              maxLength={38}
-              autoCapitalize="true"
-              value={inputValue}
-              onChange={handleChange}
-            />
-            <p
-              className={`text-[#DF7C87] font-bold ${
-                nameNotSetError ? "" : "opacity-0"
-              }`}
+        <div className="md:hidden flex flex-row items-center justify-between">
+          <img src="music-note.gif" className="h-40" />
+          <img src="tea.gif" className="h-40" />
+        </div>
+
+        <div className="h-32 flex justify-center items-end">
+          {currentPomodoroName === "" ? (
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                setCurrentPomodoroName(inputValue);
+                setNameNotSetError(false);
+              }}
             >
-              every pomodoro needs a name.
-            </p>
-          </form>
-        ) : (
-          <h1 className="text-6xl break-all text-center pb-2">
-            {currentPomodoroName}
-          </h1>
-        )}
-      </div>
+              <input
+                className={`text-3xl border-2 rounded-lg p-2 transition-colors duration-200 ${
+                  nameNotSetError ? "border-[#DF7C87]" : "border-gray-300"
+                }`}
+                placeholder="...name your pomodoro..."
+                autoFocus
+                maxLength={38}
+                autoCapitalize="true"
+                value={inputValue}
+                onChange={handleChange}
+              />
+              <p
+                className={`text-[#DF7C87] font-bold pb-2 ${
+                  nameNotSetError ? "" : "opacity-0"
+                }`}
+              >
+                every pomodoro needs a name.
+              </p>
+            </form>
+          ) : (
+            <h1 className="text-6xl break-all text-center pb-2">
+              {currentPomodoroName}
+            </h1>
+          )}
+        </div>
 
-      <Controls
-        resetTimer={resetTimer}
-        restartTimer={restartTimer}
-        startTimer={startTimer}
-        stopTimer={stopTimer}
-        isRunning={isRunning}
-      />
+        <Controls
+          resetTimer={resetTimer}
+          restartTimer={restartTimer}
+          startTimer={startTimer}
+          stopTimer={stopTimer}
+          isRunning={isRunning}
+        />
+      </div>
+      <div className="hidden md:flex flex-col items-center justify-between gap-8 opacity-0">
+        <img src="music-note.gif" className="h-20 rotate-360" />
+
+        <div className="flex">
+          <img src="music-note.gif" className="h-20" />
+          <img src="tea.gif" className="h-40" />
+        </div>
+        <img src="sofa.gif" className="h-50" />
+      </div>
     </div>
   );
 };

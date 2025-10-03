@@ -4,6 +4,7 @@ import { PomodoroProvider } from "./components/contexts/PomodoroContext";
 import Divider from "./components/Divider";
 import StatsPanel from "./components/StatsPanel";
 import TimerPanel from "./components/TimerPanel";
+import { Toaster } from "react-hot-toast";
 
 function App() {
   return (
@@ -18,6 +19,13 @@ function App() {
             <StatsPanel />
           </div>
         </div>
+        <Toaster
+          position="top-right"
+          reverseOrder={false}
+          toastOptions={{
+            duration: 9000,
+          }}
+        />
       </PomodoroProvider>
     </LapProvider>
   );

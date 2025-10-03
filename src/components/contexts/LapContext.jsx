@@ -3,9 +3,10 @@ import { createContext, useState } from "react";
 const LapContext = createContext();
 
 export const LapProvider = ({ children }) => {
-  const [focusMinutes, setFocusMinutes] = useState(5);
-  const [breakMinutes, setBreakMinutes] = useState(2);
-  const [largeBreakMinutes, setLargeBreakMinutes] = useState(4);
+  const [lapOngoing, setLapOngoing] = useState(false);
+  const [focusMinutes, setFocusMinutes] = useState(25);
+  const [breakMinutes, setBreakMinutes] = useState(5);
+  const [largeBreakMinutes, setLargeBreakMinutes] = useState(15);
 
   function updateLapMinutes(
     newFocusMinutes,
@@ -22,6 +23,8 @@ export const LapProvider = ({ children }) => {
         focusMinutes,
         breakMinutes,
         largeBreakMinutes,
+        lapOngoing,
+        setLapOngoing,
         updateLapMinutes,
       }}
     >

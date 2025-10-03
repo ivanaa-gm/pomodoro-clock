@@ -22,6 +22,7 @@ const CustomizeModal = ({ onClose, isOpen }) => {
     <AnimatePresence>
       {isOpen && (
         <motion.div
+          key="backdrop"
           className="fixed inset-0 flex items-center justify-center bg-black/50 z-50"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -30,6 +31,7 @@ const CustomizeModal = ({ onClose, isOpen }) => {
           onClick={onClose}
         >
           <motion.div
+            key="modal"
             className="bg-[#3D182B] text-[#F5E9E2] rounded-2xl p-6 shadow-2xl md:w-160 min-w-90"
             initial={{ scale: 0.95, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
@@ -119,7 +121,7 @@ const CustomizeModal = ({ onClose, isOpen }) => {
               <div
                 className="border-1 rounded-md p-2 px-4 flex gap-2 items-center cursor-pointer hover:bg-white/10 transition duration-400"
                 onClick={() => {
-                  console.log("oppp")
+                  console.log("oppp");
                   updateLapMinutes(focusTime, breakTime, largeBreakTime);
                   onClose();
                 }}
