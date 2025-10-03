@@ -8,7 +8,7 @@ const Timer = ({ secondsLeft }) => {
   const paddedSeconds = String(seconds).padStart(2, "0");
 
   return (
-    <div className="flex flex-row justify-center ptSans items-center mt-30 mb-10 md:my-0">
+    <div className="flex flex-row justify-center ptSans items-center mt-10 md:mb-10">
       <div className="flex flex-row timer-text font-semibold">
         <Digit value={paddedMinutes[0]} />
         <Digit value={paddedMinutes[1]} />

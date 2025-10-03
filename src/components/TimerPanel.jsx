@@ -3,6 +3,7 @@ import PomodoroContext from "./contexts/PomodoroContext";
 import Controls from "./Controls";
 import Timer from "./Timer";
 import { useState, useEffect, useContext } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 
 const TimerPanel = () => {
   const {
@@ -167,94 +168,110 @@ const TimerPanel = () => {
   }
 
   return (
-    <div className="flex h-full justify-center">
-      <div
-        className={`
+    <AnimatePresence mode="wait">
+      <div className="flex h-full justify-center">
+        <div
+          className={`
     hidden md:flex flex-col items-center justify-center gap-8
     ${steps[currentStep].type === "break" ? "opacity-100" : "opacity-0"}
   `}
-      >
-        <img src="music-note.gif" className="h-20" />
-
-        <div className="flex">
+        >
           <img src="music-note.gif" className="h-20" />
-          <img src="tea.gif" className="h-40" />
-        </div>
-        <img src="sofa.gif" className="h-50" />
-      </div>
-      <div className="h-full flex flex-col md:justify-around items-center">
-        <div>
-          <img src="logo.png" className="h-36" />
-        </div>
-        <h2 className="text-4xl font-semibold">
-          {steps[currentStep].type === "work" ? "FOCUS" : "BREAK"}
-        </h2>
 
-        <Timer secondsLeft={secondsLeft} />
+          <div className="flex">
+            <img src="music-note.gif" className="h-20" />
+            <img src="tea.gif" className="h-40" />
+          </div>
+          <img src="sofa.gif" className="h-50" />
+        </div>
+        <div className="h-full flex flex-col md:justify-around items-center">
+          <div>
+            <img src="logo.png" className="h-30 mb-10" />
+          </div>
 
-        <div
-          className={`
+          <motion.h2
+            className="text-7xl font-semibold"
+            animate={{
+              scale: [1, 1.02, 1],
+              rotate: [0, 1, -1, 0],
+              opacity: [1, 0.7, 1],
+            }}
+            transition={{
+              duration: 3,
+              repeat: Infinity,
+              repeatType: "loop",
+              ease: "easeInOut",
+            }}
+          >
+            {steps[currentStep].type === "work" ? "FOCUS" : "BREAK"}
+          </motion.h2>
+
+          <Timer secondsLeft={secondsLeft} />
+
+          <div
+            className={`
     md:hidden flex flex-row items-center justify-between
     ${steps[currentStep].type === "break" ? "opacity-100" : "opacity-0"}
   `}
-        >
-          <img src="music-note.gif" className="h-40" />
-          <img src="tea.gif" className="h-40" />
-        </div>
+          >
+            <img src="music-note.gif" className="h-20" />
+            <img src="tea.gif" className="h-20" />
+          </div>
 
-        <div className="h-32 flex justify-center items-end">
-          {currentPomodoroName === "" ? (
-            <form
-              onSubmit={(e) => {
-                e.preventDefault();
-                setCurrentPomodoroName(inputValue);
-                setNameNotSetError(false);
-              }}
-            >
-              <input
-                className={`text-3xl border-2 rounded-lg p-2 transition-colors duration-200 ${
-                  nameNotSetError ? "border-[#DF7C87]" : "border-gray-300"
-                }`}
-                placeholder="...name your pomodoro..."
-                autoFocus
-                maxLength={38}
-                autoCapitalize="true"
-                value={inputValue}
-                onChange={handleChange}
-              />
-              <p
-                className={`text-[#DF7C87] font-bold pb-2 ${
-                  nameNotSetError ? "" : "opacity-0"
-                }`}
+          <div className="h-32 flex justify-center items-end">
+            {currentPomodoroName === "" ? (
+              <form
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  setCurrentPomodoroName(inputValue);
+                  setNameNotSetError(false);
+                }}
               >
-                every pomodoro needs a name.
-              </p>
-            </form>
-          ) : (
-            <h1 className="text-6xl break-all text-center pb-2">
-              {currentPomodoroName}
-            </h1>
-          )}
-        </div>
+                <input
+                  className={`text-3xl border-2 rounded-lg p-2 transition-colors duration-200 ${
+                    nameNotSetError ? "border-[#DF7C87]" : "border-gray-300"
+                  }`}
+                  placeholder="...name your pomodoro..."
+                  autoFocus
+                  maxLength={38}
+                  autoCapitalize="true"
+                  value={inputValue}
+                  onChange={handleChange}
+                />
+                <p
+                  className={`text-[#DF7C87] font-bold pb-2 ${
+                    nameNotSetError ? "" : "opacity-0"
+                  }`}
+                >
+                  every pomodoro needs a name.
+                </p>
+              </form>
+            ) : (
+              <h1 className="text-6xl break-all text-center pb-2">
+                {currentPomodoroName}
+              </h1>
+            )}
+          </div>
 
-        <Controls
-          resetTimer={resetTimer}
-          restartTimer={restartTimer}
-          startTimer={startTimer}
-          stopTimer={stopTimer}
-          isRunning={isRunning}
-        />
-      </div>
-      <div className="hidden md:flex flex-col items-center justify-between gap-8 opacity-0">
-        <img src="music-note.gif" className="h-20 rotate-360" />
-
-        <div className="flex">
-          <img src="music-note.gif" className="h-20" />
-          <img src="tea.gif" className="h-40" />
+          <Controls
+            resetTimer={resetTimer}
+            restartTimer={restartTimer}
+            startTimer={startTimer}
+            stopTimer={stopTimer}
+            isRunning={isRunning}
+          />
         </div>
-        <img src="sofa.gif" className="h-50" />
+        <div className="hidden md:flex flex-col items-center justify-between gap-8 opacity-0">
+          <img src="music-note.gif" className="h-20 rotate-360" />
+
+          <div className="flex">
+            <img src="music-note.gif" className="h-20" />
+            <img src="tea.gif" className="h-40" />
+          </div>
+          <img src="sofa.gif" className="h-50" />
+        </div>
       </div>
-    </div>
+    </AnimatePresence>
   );
 };
 

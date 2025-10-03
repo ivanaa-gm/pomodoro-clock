@@ -4,18 +4,18 @@ const LapContext = createContext();
 
 export const LapProvider = ({ children }) => {
   const [lapOngoing, setLapOngoing] = useState(false);
-  const [focusMinutes, setFocusMinutes] = useState(25);
-  const [breakMinutes, setBreakMinutes] = useState(5);
-  const [largeBreakMinutes, setLargeBreakMinutes] = useState(15);
+  const [focusMinutes, setFocusMinutes] = useState(1500);
+  const [breakMinutes, setBreakMinutes] = useState(300);
+  const [largeBreakMinutes, setLargeBreakMinutes] = useState(900);
 
   function updateLapMinutes(
     newFocusMinutes,
     newBreakMinutes,
     newLargeBreakMinutes
   ) {
-    setFocusMinutes(newFocusMinutes);
-    setBreakMinutes(newBreakMinutes);
-    setLargeBreakMinutes(newLargeBreakMinutes);
+    setFocusMinutes(newFocusMinutes * 60);
+    setBreakMinutes(newBreakMinutes * 60);
+    setLargeBreakMinutes(newLargeBreakMinutes * 60);
   }
   return (
     <LapContext.Provider
