@@ -192,7 +192,12 @@ const TimerPanel = () => {
 
         <Timer secondsLeft={secondsLeft} />
 
-        <div className="md:hidden flex flex-row items-center justify-between">
+        <div
+          className={`
+    md:hidden flex flex-row items-center justify-between
+    ${steps[currentStep].type === "break" ? "opacity-100" : "opacity-0"}
+  `}
+        >
           <img src="music-note.gif" className="h-40" />
           <img src="tea.gif" className="h-40" />
         </div>

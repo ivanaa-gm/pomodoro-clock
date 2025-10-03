@@ -2,6 +2,7 @@ import CurrentRun from "./CurrentRun";
 import CustomAndInfoButtons from "./CustomAndInfoButtons";
 import History from "./History";
 import { ChevronUp } from "lucide-react";
+import Divider from "./Divider";
 
 const StatsPanel = () => {
   return (
@@ -12,7 +13,7 @@ const StatsPanel = () => {
       <div className="flex flex-col">
         <CurrentRun />
       </div>
-      <div className="md:hidden flex justify-center items-center gap-4 p-4">
+      <div className="md:hidden flex justify-center items-center gap-4">
         <CustomAndInfoButtons />
         <div
           className="flex justify-center gap-1 bg-white/50 rounded-lg p-2 cursor-pointer"
@@ -23,6 +24,8 @@ const StatsPanel = () => {
           <ChevronUp />
         </div>
       </div>
+      
+      <div className="md:hidden"><Divider /></div>
       <div className="">
         <History />
       </div>
